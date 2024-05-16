@@ -56,10 +56,11 @@
         'https://picsum.photos/5',
         'https://picsum.photos/50',
         'https://picsum.photos/500',
+        'https://picsum.photos/5000',
       ];
       var randomIndex = Math.floor(Math.random() * resources.length);
       var url = resources[randomIndex];
-      document.getElementById('result').innerHTML += url + "</br>";
+      document.getElementById('result').innerHTML = url + "<hr/>" + document.getElementById('result').innerHTML;
       return url;
     }
 
