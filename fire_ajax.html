@@ -34,7 +34,9 @@
 
             // Call native callback based on platform
             if (isIOS()) {
-              window.webkit.messageHandlers.onResourceLoad.postMessage(1);
+              const event = new Date();
+              const jsonDate = event.toJSON();
+              window.webkit.messageHandlers.onResourceLoad.postMessage(jsonDate);
             } else if (isAndroid()) {
               if (typeof Android !== 'undefined') {
                 // the variable is defined
