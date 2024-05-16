@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Resource Loader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #content {
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body onload="loadRandomResource(); setInterval(loadRandomResource, 5000);">
+  <div id="content">
+    <h1>Random Resource Loader</h1>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function loadRandomResource() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            var response = xhr.responseText;
+
+            // Call native callback based on platform
+            if (isIOS()) {
+              window.webkit.messageHandlers.onResourceLoad.postMessage(response);
+            } else if (isAndroid()) {
+              if (typeof Android !== 'undefined') {
+                // the variable is defined
+                Android.onResourceLoad(response);
+              }
+            }
+          } else {
+            console.error('Error loading resource');
+          }
+        }
+      };
+      var randomResource = getRandomResource();
+      xhr.open('GET', randomResource, true);
+      xhr.send();
+    }
+
+    function getRandomResource() {
+      var resources = [
+        'https://picsum.photos/5',
+        'https://picsum.photos/50',
+        'https://picsum.photos/500',
+      ];
+      var randomIndex = Math.floor(Math.random() * resources.length);
+      var url = resources[randomIndex];
+      document.getElementById('result').innerHTML += url + "</br>";
+      return url;
+    }
+
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+
+    function isAndroid() {
+      return /Android/.test(navigator.userAgent);
+    }
+  </script>
+</body>
+
+</html>
