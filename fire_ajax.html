@@ -34,7 +34,7 @@
 
             // Call native callback based on platform
             if (isIOS()) {
-              window.webkit.messageHandlers.onResourceLoad.postMessage(Date.now());
+              window.webkit.messageHandlers.onResourceLoad.postMessage(Date.now().toString());
             } else if (isAndroid()) {
               if (typeof Android !== 'undefined') {
                 // the variable is defined
